@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/semantics.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyPageState extends State<MyPage> {
-  final _stateController = TextEditingContruller();
+  final _stateController = TextEditingController();
 
   @override
   void initState() {
@@ -36,18 +35,18 @@ class MyPageState extends State<MyPage> {
   }
 
   void laodOnPressed() {
-    Firestore.instance.document("users")
+    Firestore.instance.document("users/memo")
         .get().then((DocumentSnapshot ds) {
           setState(() {
-            this/_stateController.text = ds[""];
+            this._stateController.text = ds["word"];
           });
           print("status=$this.status");
         });
   }
 
   void saveOnPressed() {
-    Firestore.instance.document("")
-        .updateData({"":_stateController.text})
+    Firestore.instance.document("users/memo")
+        .updateData({"word":_stateController.text})
         .then((value) => print("success"))
         .catchError((value) => print("error $value"));
   }
